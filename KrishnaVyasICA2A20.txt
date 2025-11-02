@@ -1,0 +1,246 @@
+-- SET 9 (All New Data)
+-- Krishna Vyas
+-- Roll NO: 20
+
+-- ======================================================
+-- RESET
+-- ======================================================
+
+CREATE DATABASE exam_database;
+USE exam_database;
+
+DROP TABLE IF EXISTS orders, products, suppliers, employees, departments,
+students, courses, instructors, customers, books, authors;
+
+-- ======================================================
+-- TABLE CREATION
+-- ======================================================
+
+CREATE TABLE departments (
+    dept_id INT PRIMARY KEY,
+    dept_name VARCHAR(50),
+    location VARCHAR(50)
+);
+
+CREATE TABLE employees (
+    emp_id INT PRIMARY KEY,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    job_title VARCHAR(50),
+    salary DECIMAL(10,2),
+    hire_date DATE,
+    dept_id INT,
+    manager_id INT,
+    FOREIGN KEY (dept_id) REFERENCES departments(dept_id)
+);
+
+CREATE TABLE students (
+    student_id INT PRIMARY KEY,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    marks INT,
+    class VARCHAR(20),
+    email VARCHAR(100)
+);
+
+CREATE TABLE instructors (
+    instructor_id INT PRIMARY KEY,
+    name VARCHAR(50),
+    email VARCHAR(100)
+);
+
+CREATE TABLE courses (
+    course_id INT PRIMARY KEY,
+    course_name VARCHAR(100),
+    dept_id INT,
+    fee DECIMAL(10,2),
+    instructor_id INT,
+    FOREIGN KEY (dept_id) REFERENCES departments(dept_id),
+    FOREIGN KEY (instructor_id) REFERENCES instructors(instructor_id)
+);
+
+CREATE TABLE customers (
+    cust_id INT PRIMARY KEY,
+    name VARCHAR(50),
+    city VARCHAR(50),
+    reg_date DATE
+);
+
+CREATE TABLE suppliers (
+    supplier_id INT PRIMARY KEY,
+    supplier_name VARCHAR(100),
+    city VARCHAR(50)
+);
+
+CREATE TABLE products (
+    prod_id INT PRIMARY KEY,
+    prod_name VARCHAR(100),
+    category VARCHAR(50),
+    price DECIMAL(10,2),
+    supplier_id INT,
+    FOREIGN KEY (supplier_id) REFERENCES suppliers(supplier_id)
+);
+
+CREATE TABLE orders (
+    order_id INT PRIMARY KEY,
+    cust_id INT,
+    prod_id INT,
+    order_date DATE,
+    quantity INT,
+    FOREIGN KEY (cust_id) REFERENCES customers(cust_id),
+    FOREIGN KEY (prod_id) REFERENCES products(prod_id)
+);
+
+CREATE TABLE authors (
+    author_id INT PRIMARY KEY,
+    name VARCHAR(50),
+    email VARCHAR(100)
+);
+
+CREATE TABLE books (
+    book_id INT PRIMARY KEY,
+    title VARCHAR(100),
+    price DECIMAL(10,2),
+    category VARCHAR(50),
+    author_id INT,
+    publish_date DATE,
+    FOREIGN KEY (author_id) REFERENCES authors(author_id)
+);
+
+-- ======================================================
+-- SAMPLE DATA (All New)
+-- ======================================================
+
+-- Departments
+INSERT INTO departments VALUES
+(10, 'Engineering', 'Hyderabad'),
+(20, 'Marketing', 'Chennai'),
+(30, 'Accounts', 'Ahmedabad'),
+(40, 'Research', 'Kolkata');
+
+-- Employees
+INSERT INTO employees VALUES
+(101, 'Ishaan', 'Kohli', 'Director', 95000, '2014-04-10', 10, NULL),
+(102, 'Tanya', 'Bose', 'Engineer', 70000, '2019-09-20', 10, 101),
+(103, 'Prakash', 'Desai', 'Marketing Lead', 60000, '2021-01-15', 20, 101),
+(104, 'Nisha', 'Fernandes', 'Accountant', 50000, '2022-05-01', 30, 101),
+(105, 'Arav', 'Kulkarni', 'Research Analyst', 48000, '2023-07-25', 40, 101);
+
+-- Students
+INSERT INTO students VALUES
+(11, 'Sanjay', 'Menon', 88, 'FYBCom', 'sanjay@gmail.com'),
+(12, 'Divya', 'Shukla', 91, 'FYBCom', 'divya@yahoo.com'),
+(13, 'Farhan', 'Ali', 73, 'SYBCom', 'farhan@gmail.com'),
+(14, 'Megha', 'Pillai', 65, 'SYBCom', 'megha@hotmail.com'),
+(15, 'Ankit', 'Shetty', 49, 'TYBCom', 'ankit@gmail.com');
+
+-- Instructors
+INSERT INTO instructors VALUES
+(11, 'Prof. Aditya', 'aditya@college.edu'),
+(12, 'Dr. Bhavna', 'bhavna@college.edu'),
+(13, 'Dr. Chirag', 'chirag@college.edu');
+
+-- Courses
+INSERT INTO courses VALUES
+(11, 'Data Analytics', 10, 18000, 11),
+(12, 'Brand Management', 20, 14000, 12),
+(13, 'Corporate Finance', 30, 21000, 13),
+(14, 'Product Innovation', 40, 22000, 11);
+
+-- Customers
+INSERT INTO customers VALUES
+(21, 'Ritika', 'Hyderabad', '2024-02-05'),
+(22, 'Varun', 'Chennai', '2023-11-11'),
+(23, 'Snehal', 'Ahmedabad', '2024-03-18'),
+(24, 'Dev', 'Kolkata', '2022-10-01');
+
+-- Suppliers
+INSERT INTO suppliers VALUES
+(31, 'GlobalTech Pvt Ltd', 'Hyderabad'),
+(32, 'PaperWorld', 'Chennai'),
+(33, 'FurniHouse', 'Ahmedabad');
+
+-- Products
+INSERT INTO products VALUES
+(41, 'Smartphone', 'Electronics', 32000, 31),
+(42, 'Wireless Mouse', 'Electronics', 1500, 31),
+(43, 'Executive Desk', 'Furniture', 25000, 33),
+(44, 'Stationery Set', 'Stationery', 350, 32),
+(45, 'LED Monitor', 'Electronics', 17000, 31);
+
+-- Orders
+INSERT INTO orders VALUES
+(51, 21, 41, '2024-07-12', 1),
+(52, 22, 42, '2024-07-15', 3),
+(53, 23, 43, '2024-08-01', 2),
+(54, 21, 44, '2024-08-09', 5),
+(55, 24, 45, '2024-09-20', 1);
+
+-- Authors
+INSERT INTO authors VALUES
+(61, 'Kavita Das', 'kavita@mail.com'),
+(62, 'Rohit Sen', 'rohit@mail.com'),
+(63, 'Meera Joshi', 'meera@mail.com');
+
+-- Books
+INSERT INTO books VALUES
+(71, 'Modern Analytics', 650, 'Education', 61, '2021-01-15'),
+(72, 'Marketing Revolution', 500, 'Business', 62, '2020-06-10'),
+(73, 'Financial Mastery', 550, 'Finance', 63, '2019-03-01'),
+(74, 'Creative Design', 400, 'Art', 61, '2018-09-12'),
+(75, 'Research Insights', 700, 'Research', 63, '2022-05-25');
+
+-- Q1: 
+SELECT supplier_name, city
+FROM suppliers
+WHERE city = 'Chennai';
+
+-- Q2: 
+SELECT s.supplier_name, COUNT(p.prod_id) AS total_products
+FROM suppliers s
+LEFT JOIN products p ON s.supplier_id = p.supplier_id
+GROUP BY s.supplier_name;
+
+-- Q3:
+SELECT prod_id, prod_name, price
+FROM products
+WHERE price > 200;
+
+-- Q4: 
+SELECT p.prod_name, p.price, s.supplier_name
+FROM products p
+JOIN suppliers s ON p.supplier_id = s.supplier_id;
+
+-- Q5: 
+CREATE INDEX idx_supplier_name
+ON suppliers (supplier_name);
+
+-- Q6:
+SELECT s.supplier_id, s.supplier_name
+FROM suppliers s
+JOIN products p ON s.supplier_id = p.supplier_id
+GROUP BY s.supplier_id, s.supplier_name
+HAVING COUNT(p.prod_id) >
+(
+   SELECT AVG(prod_count)
+   FROM (
+       SELECT COUNT(prod_id) AS prod_count
+       FROM products
+       GROUP BY supplier_id
+   ) AS subq
+);
+
+-- Q7: 
+SELECT s.supplier_name, COUNT(p.prod_id) AS total_products
+FROM suppliers s
+JOIN products p ON s.supplier_id = p.supplier_id
+GROUP BY s.supplier_name
+ORDER BY total_products DESC
+LIMIT 3;
+
+-- Q8: 
+SELECT prod_id, prod_name
+FROM products
+WHERE supplier_id IS NULL
+   OR supplier_id NOT IN (SELECT supplier_id FROM suppliers);
+
